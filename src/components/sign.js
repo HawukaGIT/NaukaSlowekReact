@@ -6,7 +6,6 @@ export default function Sign(props) {
   const [login, setLogin] = useState("");
   const [pass, setPass] = useState("");
   const [message, setMessage] = useState("");
-  const [logged, setLogged] = useState(false);
 
   const handleClickSignUp = () => {
     console.log("up");
@@ -49,6 +48,10 @@ export default function Sign(props) {
       });
   };
 
+  const handleClickLogOut = () => {
+    console.log("logout");
+  };
+
   const handleChangeLogin = (e) => {
     console.log("login: ", e.target.value);
     setLogin(e.target.value);
@@ -59,14 +62,31 @@ export default function Sign(props) {
     setPass(e.target.value);
   };
 
-  return (
-    <>
-      <label>Login</label>
-      <input type="text" value={login} onChange={handleChangeLogin} />
-      <label>password</label>
-      <input type="text" value={pass} onChange={handleChangePass} />
+  const notLogged = (
+    <div>
+      <label>
+        Login
+        <input type="text" value={login} onChange={handleChangeLogin} />
+      </label>
+      <label>
+        password
+        <input type="text" value={pass} onChange={handleChangePass} />
+      </label>
       <button onClick={handleClickSignIn}>signin</button>
       <button onClick={handleClickSignUp}>signup</button>
+    </div>
+  );
+
+  const logged = (
+    <div>
+      <button onClick={handleClickLogOut}>logout</button>
+    </div>
+  );
+
+  const userForm = props.user ? <>{logged}</> : <>{notLogged}</>;
+  return (
+    <>
+      {userForm}
       <div>{message}</div>
     </>
   );
