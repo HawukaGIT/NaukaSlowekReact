@@ -3,8 +3,10 @@ import { useState } from "react";
 import React from "react";
 
 export default function Sign(props) {
-  const [login, setLogin] = useState("");
-  const [pass, setPass] = useState("");
+  const [inputValue, setInputValue] = useState({
+    login: "",
+    pass: "",
+  });
   const [message, setMessage] = useState("");
 
   const handleClickSignUp = () => {
@@ -12,12 +14,16 @@ export default function Sign(props) {
     setMessage("");
     axios
       .post("http://localhost:3001/api/auth/signup", {
-        login: login,
-        password: pass,
+        login: inputValue.login,
+        password: inputValue.pass,
       })
       .then((response) => {
         console.log(response.data);
         setMessage(response.data.msg);
+        setInputValue({
+          login: "",
+          pass: "",
+        });
       })
       .catch((error) => {
         console.log("error: ", error.response.data);
@@ -32,15 +38,19 @@ export default function Sign(props) {
       .post(
         "http://localhost:3001/api/auth/signin",
         {
-          login: login,
-          password: pass,
+          login: inputValue.login,
+          password: inputValue.pass,
         },
         { withCredentials: "true", credentials: "include" }
       )
       .then((response) => {
         console.log(response.data);
         setMessage(response.data.msg);
-        props.userlogged(login);
+        props.userlogged(inputValue.login);
+        setInputValue({
+          login: "",
+          pass: "",
+        });
       })
       .catch((error) => {
         console.log("error: ", error.response.data);
@@ -49,28 +59,54 @@ export default function Sign(props) {
   };
 
   const handleClickLogOut = () => {
-    console.log("logout");
+    axios
+      .post(
+        "http://localhost:3001/api/auth/logout",
+        {},
+        { withCredentials: "true", credentials: "include" }
+      )
+      .then((response) => {
+        console.log(response.data);
+        setMessage(response.data.msg);
+        props.userlogged("");
+        console.log("logout");
+      })
+      .catch((error) => {
+        console.log("error: ", error.response.data);
+        setMessage(error.response.data.err);
+      });
   };
 
-  const handleChangeLogin = (e) => {
-    console.log("login: ", e.target.value);
-    setLogin(e.target.value);
-  };
-
-  const handleChangePass = (e) => {
-    console.log("pass: ", e.target.value);
-    setPass(e.target.value);
+  const handleChange = (e) => {
+    console.log("target: ", e.target);
+    const { name, value } = e.target;
+    setInputValue((prevState) => {
+      return {
+        ...prevState,
+        [name]: value,
+      };
+    });
   };
 
   const notLogged = (
     <div>
       <label>
         Login
-        <input type="text" value={login} onChange={handleChangeLogin} />
+        <input
+          type="text"
+          name="login"
+          value={inputValue.login}
+          onChange={handleChange}
+        />
       </label>
       <label>
         password
-        <input type="text" value={pass} onChange={handleChangePass} />
+        <input
+          type="password"
+          name="pass"
+          value={inputValue.pass}
+          onChange={handleChange}
+        />
       </label>
       <button onClick={handleClickSignIn}>signin</button>
       <button onClick={handleClickSignUp}>signup</button>
@@ -84,6 +120,7 @@ export default function Sign(props) {
   );
 
   const userForm = props.user ? <>{logged}</> : <>{notLogged}</>;
+
   return (
     <>
       {userForm}

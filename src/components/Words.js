@@ -12,7 +12,7 @@ function Words(props) {
         credentials: "include",
       })
       .then((res) => {
-        console.log(res.data);
+        setHasError(false);
         setWords(res.data);
         console.log(`pobrano dane użytkownika ${props.user}`);
       })
@@ -21,10 +21,14 @@ function Words(props) {
         setWords(err.response.data.msg);
         console.log(err);
       });
-  }, [props.user]); //pusty parametr umożliwia jednorazowe odpalenie efectu tylko podczas renderowania
-  const wordsList = hasError ? <div>{words}</div> : words.map((el) => <Word key={el._id} word={el} />) ;
+  }, [props.user]);
+  const wordsList = hasError ? (
+    <div>{words}</div>
+  ) : (
+    words.map((el) => <Word key={el._id} word={el} />)
+  );
 
-  return <div>{wordsList}</div>;
+  return <div>Twoje słówka:{wordsList}</div>;
 }
 
 export default Words;

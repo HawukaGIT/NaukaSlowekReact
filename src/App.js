@@ -12,12 +12,10 @@ function App() {
   const onUserlogin = (user) => {
     setUser(user);
   };
- 
-   
 
   return (
     <div className="App">
-      <Sign userlogged={onUserlogin} user={user}/>
+      <Sign userlogged={onUserlogin} user={user} />
       <h1>Witaj {user}</h1>
       <Lists user={user} />
       <Words user={user} />
