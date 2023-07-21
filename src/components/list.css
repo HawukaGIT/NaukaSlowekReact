@@ -1,0 +1,11 @@
+div.list {
+  margin: 10px;
+}
+
+.hidden {
+  display: none;
+  /* visibility: hidden; */
+}
+.starttest {
+  background-color: red;
+}

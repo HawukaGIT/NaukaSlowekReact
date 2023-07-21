@@ -9,8 +9,14 @@ export default function Sign(props) {
   });
   const [message, setMessage] = useState("");
 
+  const clearForm = () => {
+    setInputValue({
+      login: "",
+      pass: "",
+    });
+  };
+
   const handleClickSignUp = () => {
-    console.log("up");
     setMessage("");
     axios
       .post("http://localhost:3001/api/auth/signup", {
@@ -18,12 +24,8 @@ export default function Sign(props) {
         password: inputValue.pass,
       })
       .then((response) => {
-        console.log(response.data);
         setMessage(response.data.msg);
-        setInputValue({
-          login: "",
-          pass: "",
-        });
+        clearForm();
       })
       .catch((error) => {
         console.log("error: ", error.response.data);
@@ -32,7 +34,6 @@ export default function Sign(props) {
   };
 
   const handleClickSignIn = () => {
-    console.log("in");
     setMessage("");
     axios
       .post(
@@ -44,13 +45,9 @@ export default function Sign(props) {
         { withCredentials: "true", credentials: "include" }
       )
       .then((response) => {
-        console.log(response.data);
         setMessage(response.data.msg);
         props.userlogged(inputValue.login);
-        setInputValue({
-          login: "",
-          pass: "",
-        });
+        clearForm();
       })
       .catch((error) => {
         console.log("error: ", error.response.data);
@@ -66,7 +63,6 @@ export default function Sign(props) {
         { withCredentials: "true", credentials: "include" }
       )
       .then((response) => {
-        console.log(response.data);
         setMessage(response.data.msg);
         props.userlogged("");
         console.log("logout");
@@ -74,11 +70,11 @@ export default function Sign(props) {
       .catch((error) => {
         console.log("error: ", error.response.data);
         setMessage(error.response.data.err);
+        props.userlogged("");
       });
   };
 
   const handleChange = (e) => {
-    console.log("target: ", e.target);
     const { name, value } = e.target;
     setInputValue((prevState) => {
       return {
@@ -116,6 +112,7 @@ export default function Sign(props) {
   const logged = (
     <div>
       <button onClick={handleClickLogOut}>logout</button>
+      <h1>Witaj {props.user}</h1>
     </div>
   );
 
