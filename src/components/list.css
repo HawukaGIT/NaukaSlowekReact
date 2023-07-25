@@ -1,5 +1,8 @@
 div.list {
-  margin: 10px;
+  margin: 10px auto 10px auto;
+  max-width: 200px;
+  border: 2px solid;
+  border-radius: 5px;
 }
 
 .hidden {
@@ -8,4 +11,10 @@ div.list {
 }
 .starttest {
   background-color: red;
+}
+.mouseover {
+  margin: 10px auto 10px auto;
+  max-width: 200px;
+  border: 8px solid;
+  border-radius: 10px;
 }

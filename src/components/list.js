@@ -1,12 +1,15 @@
 import "./list.css";
 import { useState } from "react";
+
 export default function List(props) {
   const [buttonClass, setButtonClass] = useState("hidden");
-  const handleDelete = () => {
-    console.log("handledelete: ", props.list.name);
-  };
+  const [listClass, setListClass] = useState("list");
+
   const handleEdit = () => {
     console.log("handleEdit: ", props.list.name);
+  };
+  const handleDelete = () => {
+    props.delete(props.list);
   };
 
   const handleStartTest = () => {
@@ -22,22 +25,32 @@ export default function List(props) {
     </div>
   );
 
-  const handlerOnMouseEnter = () => {
+  const handleOnMouseEnter = () => {
     setButtonClass("");
+    setListClass("mouseover");
   };
 
-  const handlerOnMouseLeave = () => {
+  const handleOnMouseLeave = () => {
     setButtonClass("hidden");
+    setListClass("list");
   };
+
+  const random = Math.random() * 360;
+  const background = `hsl(${random},80%,70%`;
+  const color = `hsl(${random},40%,30%`;
+  const description = props.list.description
+    ? `(${props.list.description})`
+    : undefined;
 
   return (
     <div
-      className="list"
-      onMouseEnter={handlerOnMouseEnter}
-      onMouseLeave={handlerOnMouseLeave}
+      className={listClass}
+      style={{ backgroundColor: background, color: color, borderColor: color }}
+      onMouseEnter={handleOnMouseEnter}
+      onMouseLeave={handleOnMouseLeave}
     >
       <div>{props.list.name}</div>
-      <div>({props.list.description})</div>
+      <div>{description}</div>
       {buttons}
     </div>
   );
