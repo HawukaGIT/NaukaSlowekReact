@@ -43,7 +43,7 @@ export default function Sign(props) {
           login: inputValue.login,
           password: inputValue.pass,
         },
-        { withCredentials: "true" } //, credentials: "include"
+        { withCredentials: "true", credentials: "include" } 
       )
       .then((response) => {
         setMessage(response.data.msg);

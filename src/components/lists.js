@@ -58,7 +58,7 @@ export default function Lists(props) {
   const handleAddList = (e) => {
     axios
       .post(
-        "http://localhost:3001/api/list",
+        API_URL + "list",
         {
           name: inputName.value,
           description: inputDescription.value,
@@ -87,7 +87,7 @@ export default function Lists(props) {
 
   const handleDelete = (list) => {
     console.log("handledelete: ", list.name);
-    let url = "http://localhost:3001/api/list/" + list._id;
+    let url = API_URL + "list/" + list._id;
     axios
       .delete(url, {
         withCredentials: true,
