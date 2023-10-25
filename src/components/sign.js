@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import React from "react";
+import API_URL from "../config";
 
 export default function Sign(props) {
   const [inputValue, setInputValue] = useState({
@@ -19,7 +20,7 @@ export default function Sign(props) {
   const handleClickSignUp = () => {
     setMessage("");
     axios
-      .post("http://localhost:3001/api/auth/signup", {
+      .post(API_URL + "auth/signup", {
         login: inputValue.login,
         password: inputValue.pass,
       })
@@ -37,12 +38,12 @@ export default function Sign(props) {
     setMessage("");
     axios
       .post(
-        "http://localhost:3001/api/auth/signin",
+        API_URL + "auth/signin",
         {
           login: inputValue.login,
           password: inputValue.pass,
         },
-        { withCredentials: "true", credentials: "include" }
+        { withCredentials: "true" } //, credentials: "include"
       )
       .then((response) => {
         setMessage(response.data.msg);
@@ -58,7 +59,7 @@ export default function Sign(props) {
   const handleClickLogOut = () => {
     axios
       .post(
-        "http://localhost:3001/api/auth/logout",
+        API_URL + "auth/logout",
         {},
         { withCredentials: "true", credentials: "include" }
       )

@@ -3,6 +3,7 @@ import Words from "./Words";
 import List from "./list";
 import axios from "axios";
 import useInput from "../utils/useInput";
+import API_URL from "../config";
 
 export default function Lists(props) {
   const [words, setWords] = useState([]);
@@ -15,7 +16,7 @@ export default function Lists(props) {
 
   const fetchLists = () => {
     axios
-      .get("http://localhost:3001/api/list/", {
+      .get(API_URL + "list/", {
         withCredentials: true,
         credentials: "include",
       })
@@ -34,7 +35,7 @@ export default function Lists(props) {
   };
   const fetchWords = () => {
     axios
-      .get("http://localhost:3001/api/word/", {
+      .get(API_URL + "word/", {
         withCredentials: true,
         credentials: "include",
       })
